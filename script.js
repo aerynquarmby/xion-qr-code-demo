@@ -86,9 +86,9 @@ const getWeb3 = async () => {
 
 async function connectWallet() {
   try {
-    const web3 = await getWeb3();
+    const web3 = await getWeb3()
     const userAddressList = await web3.eth.requestAccounts();
-    userAddress = userAddressList[0];
+    userAddress = userAddressList[0]
     console.log("Connected:", userAddress);
     const connectWalletButton = document.getElementById("connect-wallet");
     connectWalletButton.textContent = "Connected";
@@ -99,6 +99,7 @@ async function connectWallet() {
     alert("Error connecting wallet. Please try again.");
   }
 }
+
 
 async function approveAndPay() {
   try {
@@ -142,23 +143,19 @@ async function approveAndPay() {
     const responseData = await response.json();
     hideSpinner(); // Hide spinner after transaction is done
 
-    if (responseData.status === "successful" && responseData.orderCode) {
-      console.log("Payment successful:", responseData);
-      if (responseData.transactionHash) {
-        showSuccessPopup(responseData.transactionHash, responseData.orderCode);
-      } else {
-        console.warn(
-          "Payment successful, but no transaction hash found:",
-          responseData
-        );
-        alert(
-          "Payment successful, but no transaction hash found. Please check your wallet or contact support."
-        );
-      }
+  if (responseData.status === "successful" && responseData.orderCode) {
+    console.log("Payment successful:", responseData);
+    if (responseData.transactionHash) {
+      showSuccessPopup(responseData.transactionHash, responseData.orderCode);
     } else {
-      console.error("Payment error:", responseData);
-      alert("Payment failed. Please try again.");
+      console.warn("Payment successful, but no transaction hash found:", responseData);
+      alert("Payment successful, but no transaction hash found. Please check your wallet or contact support.");
     }
+  } else {
+    console.error("Payment error:", responseData);
+    alert("Payment failed. Please try again.");
+  }
+
   } catch (error) {
     hideSpinner(); // Hide spinner if an error occurs
     console.error("Error processing approval/payment:", error);
@@ -209,9 +206,7 @@ function showSuccessPopup(txHash, orderCode) {
   document.body.appendChild(successPopup);
 
   // Add event listener for the close button
-  document
-    .getElementById("close-popup-btn")
-    .addEventListener("click", closeSuccessPopup);
+  document.getElementById("close-popup-btn").addEventListener("click", closeSuccessPopup);
 }
 
 function closeSuccessPopup() {
@@ -220,6 +215,8 @@ function closeSuccessPopup() {
     successPopup.remove(); // Use 'remove' instead of 'removeChild'
   }
 }
+
+
 
 document
   .getElementById("connect-wallet")
